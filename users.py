@@ -1,4 +1,5 @@
-from wtforms import Form, BooleanField, StringField, PasswordField, validators, ValidationError
+from wtforms import (Form, StringField, PasswordField,
+                     validators, ValidationError)
 
 from pprint import PrettyPrinter
 
@@ -6,8 +7,11 @@ import util
 
 pp = PrettyPrinter()
 
+
 class User(object):
-    def __init__(self, email, password, phone, origin, full_name, *args, **kwargs):
+
+    def __init__(self, email, password, phone, origin, full_name, *args,
+                 **kwargs):
         self.email = email
         self.phone = phone
         self.origin = origin
@@ -22,6 +26,7 @@ class User(object):
 
     def __str__(self):
         return "{} - {}".format(self.email, self.full_name)
+
 
 class DB(object):
     by_id = {}
@@ -60,18 +65,13 @@ class RegistrationForm(Form):
         if usersDB.get(field.data):
             raise ValidationError("User already registered")
 
-
-    email = StringField('Email', [validators.Length(min=6, max=35)])
-    phone = StringField('Phone', [validators.Length(min=6, max=35)])
-    origin = StringField('Origin', [validators.Length(min=6, max=35)])
-    full_name = StringField('Full Name', [validators.Length(min=6, max=35)])
-    password = PasswordField('Password', [
-        validators.DataRequired(),
-    ])
+    email = StringField('Email', [validators.Length(min=6, max=35), ])
+    phone = StringField('Phone', [validators.Length(min=6, max=35), ])
+    origin = StringField('Origin', [validators.Length(min=6, max=35), ])
+    full_name = StringField('Full Name', [validators.Length(min=6, max=35), ])
+    password = PasswordField('Password', [validators.DataRequired(), ])
 
 
 class LoginForm(Form):
-    email = StringField('Email', [validators.Length(min=6, max=35)])
-    password = PasswordField('Password', [
-        validators.DataRequired(),
-    ])
+    email = StringField('Email', [validators.Length(min=6, max=35), ])
+    password = PasswordField('Password', [validators.DataRequired(), ])
