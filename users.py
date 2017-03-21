@@ -29,6 +29,10 @@ class User(object):
 
 
 class DB(object):
+    """
+    A simple DB class to be used in the UserDatabase singleton
+    """
+
     by_id = {}
     ids = []
 
@@ -38,6 +42,10 @@ class DB(object):
 
 
 class UserDatabase(object):
+    """
+    A singleton to access the DB
+    """
+
     db = None
 
     def __init__(self):
@@ -45,10 +53,12 @@ class UserDatabase(object):
             UserDatabase.db = DB()
 
     def add(self, user: User):
+        """
+        Adds the user to the DB
+        """
         if user.email not in self.db.ids:
             self.db.by_id[user.email] = user
             self.db.ids.append(user.email)
-            print('Adding user: {}'.format(user.email))
             return user, True
         else:
             return "User already in DB", False
@@ -62,6 +72,9 @@ usersDB = UserDatabase()
 class RegistrationForm(Form):
 
     def validate_email(form, field):
+        """
+        Method to check if the user we are trying to add is in the DB
+        """
         if usersDB.get(field.data):
             raise ValidationError("User already registered")
 
